@@ -12,6 +12,10 @@ class ReservationTable extends React.Component {
     setInterval(this.LoadReservations, 2000);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.LoadReservations);
+  }
+
   LoadReservations = async () => {
     try {
       const res = await fetch('https://localhost:44325/api/reservation');

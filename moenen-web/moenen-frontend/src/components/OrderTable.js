@@ -7,14 +7,20 @@ class OrderTable extends React.Component {
     this.state = { orders: [] };
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillReceiveProps() {
     if (this.props.res) {
       this.setState({ reservation: this.props.res });
     }
     console.log(this.state);
+  }
 
+  componentDidMount() {
     this.LoadOrders();
-    setInterval(this.LoadOrders, 2000);
+    setInterval(this.LoadOrders, 500);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.LoadOrders);
   }
 
   LoadOrders = async () => {
@@ -27,9 +33,8 @@ class OrderTable extends React.Component {
         return;
       }
 
-      this.setState({ orders: [] });
-      const json = await res.json();
-      this.setState({ orders: json });
+      const orders = await res.json();
+      this.setState({ orders: orders });
     } catch (error) {
       //   console.log(error);
     }
@@ -56,6 +61,7 @@ class OrderTable extends React.Component {
                 <i className="fas fa-plus"></i>
               </button>
             </th>
+            {/* <th>{this.state.reservation.name}</th> */}
           </tr>
         </thead>
         <tbody>
