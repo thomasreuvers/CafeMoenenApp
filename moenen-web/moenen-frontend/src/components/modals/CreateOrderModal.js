@@ -29,17 +29,17 @@ class CreateOrderModal extends React.Component {
         [name]: value,
       });
     }
-
-    if (this.state.tables.length === 1) {
-      this.setState({ tableId: this.state.tables[0] });
-    }
     console.log(this.state);
   };
 
   onSubmitHandler = (e) => {
     e.preventDefault();
 
-    if (!this.state.tableId || this.state.beverageByUser.length <= 0) {
+    if (
+      !this.state.tableId ||
+      this.state.beverageByUser.length <= 0 ||
+      this.state.tableId === 'kies tafel'
+    ) {
       alert('Vul alle velden in!');
       return;
     }
@@ -109,8 +109,9 @@ class CreateOrderModal extends React.Component {
                     onChange={this.onChangeHandler}
                     multiple
                   >
+                    <option selected disabled></option>
                     {this.state.beverages.map((beverage) => (
-                      <option value={beverage.id}>
+                      <option key={beverage.id} value={beverage.id}>
                         {beverage.beverageName} - ${beverage.beverageCost}
                       </option>
                     ))}
@@ -122,10 +123,15 @@ class CreateOrderModal extends React.Component {
                     className="form-control"
                     id="formTableSelect"
                     name="tableId"
-                    onChange={this.onChangeHandler}
+                    onClick={this.onChangeHandler}
                   >
+                    <option selected disabled>
+                      kies tafel
+                    </option>
                     {this.state.tables.map((table) => (
-                      <option value={table.id}>{table.number}</option>
+                      <option key={table.id} value={table.id}>
+                        {table.number}
+                      </option>
                     ))}
                   </select>
                 </div>

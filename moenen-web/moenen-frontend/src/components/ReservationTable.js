@@ -3,14 +3,12 @@ import React from 'react';
 class ReservationTable extends React.Component {
   constructor(props) {
     super(props);
-
-    this.LoadReservationsInterval = setInterval(this.LoadReservations, 2000);
     this.state = { reservations: [] };
   }
 
-  // componentDidMount() {
-  //   this.LoadReservations();
-  // }
+  componentDidMount() {
+    setInterval(this.LoadReservations, 500);
+  }
 
   componentWillUnmount() {
     clearInterval(this.LoadReservationsInterval);

@@ -4,15 +4,12 @@ class OrderTable extends React.Component {
   constructor(props) {
     super(props);
 
-    this.LoadOrdersInterval = setInterval(this.LoadOrders, 500);
-
     this.state = { orders: [] };
   }
 
-  // componentDidMount() {
-  //   this.LoadOrders();
-  //   console.log(this.props.res.id);
-  // }
+  componentDidMount() {
+    setInterval(this.LoadOrders, 500);
+  }
 
   componentWillUnmount() {
     clearInterval(this.LoadOrdersInterval);
@@ -24,20 +21,38 @@ class OrderTable extends React.Component {
         `https://localhost:44325/api/order/${this.props.res.id}`
       );
 
-      console.log(this.props.res.id);
-
-      if (res && res.ok !== true) {
+      if (res.ok !== true) {
+        this.setState({ orders: [] });
         return;
       }
 
       const orders = await res.json();
       this.setState({ orders: orders });
     } catch (error) {
-      //   console.log(error);
+      // console.log(error);
     }
   };
 
   render() {
+    let orders =
+      this.state.orders.length > 0 &&
+      this.state.orders.map((order) => (
+        <tr key={order.id}>
+          <td>
+            <ul>
+              {order.beverages.map((beverage) => (
+                <li key={beverage.id + Math.random()}>
+                  {beverage.beverageName}
+                </li>
+              ))}
+            </ul>
+          </td>
+          <td>{order.table.number}</td>
+          <td>${order.cost}</td>
+          <td></td>
+        </tr>
+      ));
+
     return (
       <table className="table table-striped table-dark">
         <thead>
@@ -55,28 +70,9 @@ class OrderTable extends React.Component {
                 <i className="fas fa-plus"></i>
               </button>
             </th>
-            <th>{this.props.res.name}</th>
           </tr>
         </thead>
-        <tbody>
-          {this.state.orders > 0 ||
-            (this.state.orders &&
-              this.state.orders.map((order) => (
-                <tr key={order.id}>
-                  <td>
-                    <ul>
-                      {order.beverages.map((beverage) => (
-                        <li key={beverage.id + Math.random()}>
-                          {beverage.beverageName}
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td>{order.table.number}</td>
-                  <td>${order.cost}</td>
-                </tr>
-              )))}
-        </tbody>
+        <tbody>{orders}</tbody>
       </table>
     );
   }
