@@ -4,16 +4,16 @@ class ReservationTable extends React.Component {
   constructor(props) {
     super(props);
 
+    this.LoadReservationsInterval = setInterval(this.LoadReservations, 2000);
     this.state = { reservations: [] };
   }
 
-  componentDidMount() {
-    this.LoadReservations();
-    setInterval(this.LoadReservations, 2000);
-  }
+  // componentDidMount() {
+  //   this.LoadReservations();
+  // }
 
   componentWillUnmount() {
-    clearInterval(this.LoadReservations);
+    clearInterval(this.LoadReservationsInterval);
   }
 
   LoadReservations = async () => {

@@ -4,16 +4,18 @@ class OrderTable extends React.Component {
   constructor(props) {
     super(props);
 
+    this.LoadOrdersInterval = setInterval(this.LoadOrders, 500);
+
     this.state = { orders: [] };
   }
 
-  componentDidMount() {
-    this.LoadOrders();
-    setInterval(this.LoadOrders, 500);
-  }
+  // componentDidMount() {
+  //   this.LoadOrders();
+  //   console.log(this.props.res.id);
+  // }
 
   componentWillUnmount() {
-    clearInterval(this.LoadOrders);
+    clearInterval(this.LoadOrdersInterval);
   }
 
   LoadOrders = async () => {
@@ -21,6 +23,8 @@ class OrderTable extends React.Component {
       const res = await fetch(
         `https://localhost:44325/api/order/${this.props.res.id}`
       );
+
+      console.log(this.props.res.id);
 
       if (res && res.ok !== true) {
         return;
