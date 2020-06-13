@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -51,7 +52,7 @@ namespace cafeMoenenAPI.Controllers
                 return NotFound();
             }
 
-            return (from order in orders let beverages = order.BeverageIds.Select(beverageId => _beverageService.Get(beverageId)).ToList() select new OrderDto {Beverages = beverages, Cost = order.OrderCost, Table = _tableService.Get(order.TableId)}).ToList();
+            return (from order in orders let beverages = order.BeverageIds.Select(beverageId => _beverageService.Get(beverageId)).ToList() select new OrderDto {Id = order.Id, Beverages = beverages, Cost = order.OrderCost, Table = _tableService.Get(order.TableId)}).ToList();
         }
 
         //POST
@@ -61,6 +62,12 @@ namespace cafeMoenenAPI.Controllers
         {
             if (order == null) return NotFound();
 
+            var beverages = order.BeverageIds.Select(beverageId => _beverageService.Get(beverageId)).Where(beverage => beverage != null).ToList();
+
+            var cost = beverages.Sum(beverage => beverage.BeverageCost);
+
+
+            order.OrderCost = cost;
             _orderService.Create(order);
 
             return Ok();

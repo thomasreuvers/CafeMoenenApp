@@ -21,6 +21,8 @@ namespace cafeMoenenAPI.Services
 
         public Table Get(string id) => _tables.Find(table => table.Id == id).FirstOrDefault();
 
+        public List<Table> GetListOfTable(string id) => _tables.Find(table => table.Id == id).ToList();
+
         public IEnumerable<Table> Get() => _tables.Find(table => true).ToList();
 
         public void Update(Table table) => _tables.ReplaceOne(x => x.Id == table.Id, table);

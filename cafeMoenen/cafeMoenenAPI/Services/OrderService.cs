@@ -24,5 +24,7 @@ namespace cafeMoenenAPI.Services
         public List<Order> ByReservation(string id) => _orders.Find(order => order.ReservationId == id).ToList();
 
         public void Create(Order order) => _orders.InsertOne(order);
+
+        public void Delete(string id) => _orders.DeleteOne(x => x.Id == id);
     }
 }

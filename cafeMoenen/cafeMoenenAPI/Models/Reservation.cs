@@ -21,9 +21,9 @@ namespace cafeMoenenAPI.Models
 
         public int Guests { get; set; }
 
-        public string ReservationArrival { get; set; }
+        public DateTime ReservationArrival { get; set; }
 
-        public string ReservationDepature { get; set; }
+        public DateTime ReservationDepature { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
         public List<string> TableIds { get; set; }
