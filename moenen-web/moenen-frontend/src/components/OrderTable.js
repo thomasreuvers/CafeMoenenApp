@@ -7,13 +7,6 @@ class OrderTable extends React.Component {
     this.state = { orders: [] };
   }
 
-  UNSAFE_componentWillReceiveProps() {
-    if (this.props.res) {
-      this.setState({ reservation: this.props.res });
-    }
-    console.log(this.state);
-  }
-
   componentDidMount() {
     this.LoadOrders();
     setInterval(this.LoadOrders, 500);
@@ -26,7 +19,7 @@ class OrderTable extends React.Component {
   LoadOrders = async () => {
     try {
       const res = await fetch(
-        `https://localhost:44325/api/order/${this.state.reservation.id}`
+        `https://localhost:44325/api/order/${this.props.res.id}`
       );
 
       if (res && res.ok !== true) {
@@ -52,16 +45,13 @@ class OrderTable extends React.Component {
               <button
                 className="btn btn-sm btn-success"
                 onClick={() =>
-                  this.props.setModalActive(
-                    'createOrder',
-                    this.state.reservation
-                  )
+                  this.props.setModalActive('createOrder', this.props.res)
                 }
               >
                 <i className="fas fa-plus"></i>
               </button>
             </th>
-            {/* <th>{this.state.reservation.name}</th> */}
+            <th>{this.props.res.name}</th>
           </tr>
         </thead>
         <tbody>

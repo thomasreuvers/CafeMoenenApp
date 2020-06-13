@@ -5,7 +5,6 @@ class CreateOrderModal extends React.Component {
     super(props);
 
     this.state = {
-      reservation: this.props.reservation,
       beverages: [],
       tables: [],
       tableId: null,
@@ -53,7 +52,7 @@ class CreateOrderModal extends React.Component {
       body: JSON.stringify({
         beverageIds: this.state.beverageByUser,
         tableId: this.state.tableId,
-        reservationId: this.state.reservation.id,
+        reservationId: this.props.reservation.id,
       }),
     }).then((response) => console.log(response));
 
@@ -62,7 +61,7 @@ class CreateOrderModal extends React.Component {
   };
 
   getTables = () => {
-    this.state.reservation.tableIds.forEach((element) => {
+    this.props.reservation.tableIds.forEach((element) => {
       fetch(`https://localhost:44325/api/table/${element}`).then((response) =>
         response
           .json()
