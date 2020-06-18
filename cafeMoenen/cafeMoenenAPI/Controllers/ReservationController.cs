@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using cafeMoenenAPI.Dtos;
 using cafeMoenenAPI.Models;
 using cafeMoenenAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
