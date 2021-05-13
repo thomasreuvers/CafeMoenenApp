@@ -49,15 +49,18 @@ class CreateReservationModal extends React.Component {
       reservationArrival: this.state.resArrival,
     };
 
-    const response = fetch('https://localhost:44325/api/reservation', {
+    fetch('https://localhost:44325/api/reservation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(reservation),
-    });
-
-    console.log(response);
+    }).then(response => {
+      if(response.status != 200)
+      {
+        response.text().then(text => {alert(text)})
+      }
+    })
   };
 
   render() {
